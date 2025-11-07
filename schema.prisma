@@ -1,0 +1,50 @@
+generator client {
+    provider = "prisma-client-js"
+}
+
+datasource db {
+    provider = "postgresql"
+    url      = env("DATABASE_URL")
+}
+
+model User {
+    id            String      @id @default(cuid())
+    email         String      @unique
+    emailVerified Boolean     @default(false)
+    password      String
+    name          String
+    theme         String
+    timezone      String
+    startedAt     DateTime
+    locale        String
+    schedule      Json
+    sessions      Session[]
+    exceptions    Exception[]
+    createdAt     DateTime    @default(now())
+    updatedAt     DateTime    @updatedAt
+}
+
+// Schedule looks something like: {monday: 450, tuesday: 480, ...}
+
+model Session {
+    id        String   @id @default(cuid())
+    userId    String
+    user      User     @relation(fields: [userId], references: [id])
+    start     DateTime
+    end       DateTime
+    notes     String?
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+}
+
+model Exception {
+    id        String   @id @default(cuid())
+    userId    String
+    user      User     @relation(fields: [userId], references: [id])
+    start     DateTime
+    end       DateTime
+    type      String
+    notes     String?
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+}
