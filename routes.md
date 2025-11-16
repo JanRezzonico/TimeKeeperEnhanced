@@ -23,7 +23,7 @@ For the `user` resource, the following routes are available:
 
 `POST /user/login` - `NOT AUTHENTICATED` - Authenticate a user and return a jwt.
 
-`POST /user/logout` - Logout the authenticated user.
+`POST /user/logout` - `NOT AUTHENTICATED` - Logout the authenticated user.
 
 `PATCH /user` - Update the information of the authenticated user.
 

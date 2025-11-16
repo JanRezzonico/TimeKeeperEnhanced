@@ -1,4 +1,5 @@
 import type { RequestHandler } from "express";
+import { assert } from "../../../lib/assert.js";
 
 // const get:RequestHandler<{id:string}> = async (req, res) => {
 //     const userId = req.params.id;
@@ -6,7 +7,8 @@ import type { RequestHandler } from "express";
 // };
 
 const get: RequestHandler = async (req, res) => {
-  throw new Error("Not implemented");
+  assert(req.user, req);
+  return res.json(req.user);
 };
 
 export default get;

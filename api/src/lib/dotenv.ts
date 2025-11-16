@@ -1,11 +1,17 @@
-import dotenvLib from 'dotenv';
-import z from 'zod';
+import dotenvLib from "dotenv";
+import z from "zod";
 dotenvLib.config();
 
 const schema = z.object({
-  PORT: z.string().transform((val) => Number.parseInt(val, 10)).default(3000),
+  NODE_ENV: z.enum(["development", "production", "test"]),
+  PORT: z
+    .string()
+    .transform((val) => Number.parseInt(val, 10))
+    .default(3000),
   DATABASE_URL: z.url(),
-  JWT_EXPIRATION_SECONDS: z.string().transform((val) => Number.parseInt(val, 10)),
+  JWT_EXPIRATION_SECONDS: z
+    .string()
+    .transform((val) => Number.parseInt(val, 10)),
   // REFRESH_TOKEN_EXPIRATION_DAYS: z.string().transform((val) => Number.parseInt(val, 10)),
   JWT_SECRET: z.string().min(32),
 });

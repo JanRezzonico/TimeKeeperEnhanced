@@ -15,6 +15,6 @@ userRouter.patch("/", [authenticate], patch);
 userRouter.delete("/", [authenticate], del);
 
 userRouter.post("/login", [], login);
-userRouter.post("/logout", [authenticate], logout);
+userRouter.post("/logout", [], logout);
 
 export default userRouter;
