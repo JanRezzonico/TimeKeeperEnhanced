@@ -4,6 +4,8 @@ import { disconnectDb } from "./lib/db.js";
 import userRouter from "./routes/user/router.js";
 import authRouter from "./routes/auth/router.js";
 import handleBadJSON from "./util/errorhandlers/handleBadJSON.js";
+import nodeCron from "node-cron";
+import cleanupExpiredVerificationTokens from "./util/cronjobs/cleanupExpiredVerificationTokens.js";
 
 const app = express();
 
@@ -22,6 +24,8 @@ app.listen(dotenv.PORT, () => {
 });
 
 app.use(handleBadJSON);
+
+nodeCron.schedule("*/5 * * * *", cleanupExpiredVerificationTokens);
 
 process.on("SIGINT", async () => {
   console.log("Shutting down server...");

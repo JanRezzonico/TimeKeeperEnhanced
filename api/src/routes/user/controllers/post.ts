@@ -21,14 +21,12 @@ const post: RequestHandler = async (req, res) => {
     return res.status(409).json({ error: "Email is already taken" });
   }
 
-  console.log("Creating user with email:", email);
-
   const passwordHash = bcrypt.hashSync(password, 10);
 
   const { id } = await db.user.create({
     data: {
       email,
-      password: passwordHash,
+      passwordHash,
       name,
       theme,
       timezone,
@@ -41,11 +39,7 @@ const post: RequestHandler = async (req, res) => {
     },
   });
 
-  console.log("User created with ID:", id);
-
   setAuthCookie(res, id);
-
-  console.log("Auth cookie set for user ID:", id);
 
   return res.sendStatus(201);
 };

@@ -10,7 +10,7 @@ const login: RequestHandler = async (req, res) => {
   const user = await db.user.findUnique({ where: { email } });
   if (!user) return res.sendStatus(401);
 
-  const pwdMatch = bcrypt.compareSync(password, user.password);
+  const pwdMatch = bcrypt.compareSync(password, user.passwordHash);
   if (!pwdMatch) return res.sendStatus(401);
 
   setAuthCookie(res, user.id);
