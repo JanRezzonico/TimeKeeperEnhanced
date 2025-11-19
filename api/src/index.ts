@@ -2,6 +2,7 @@ import express, { type ErrorRequestHandler } from "express";
 import dotenv from "./lib/dotenv.js";
 import { disconnectDb } from "./lib/db.js";
 import userRouter from "./routes/user/router.js";
+import authRouter from "./routes/auth/router.js";
 
 const app = express();
 
@@ -12,6 +13,8 @@ app.get("/", async (req, res) => {
 });
 
 app.use("/user", userRouter);
+
+app.use("/auth", authRouter);
 
 app.listen(dotenv.PORT, () => {
   console.log(`🚀 Server running on http://localhost:${dotenv.PORT}`);
