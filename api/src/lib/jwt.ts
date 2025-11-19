@@ -2,22 +2,26 @@ import jwt from "jsonwebtoken";
 import dotenv from "./dotenv.js";
 
 const signJWT = (userId: string) => {
-  const expiresAt =
-    Math.floor(Date.now() / 1000) + dotenv.JWT_EXPIRATION_SECONDS;
-  const payload = { sub: userId, exp: expiresAt };
-  const token = jwt.sign(payload, dotenv.JWT_SECRET, {
+  const token = jwt.sign({}, dotenv.JWT_SECRET, {
     expiresIn: dotenv.JWT_EXPIRATION_SECONDS,
+    subject: userId,
   });
   return token;
 };
 
+type VerificationSuccess = {
+  success: true;
+  userId: string;
+};
+
+type VerificationFailure = {
+  success: false;
+  reason: "expired" | "invalid" | "no_token";
+};
+
 const verifyJWT = (
   token?: string
-): {
-  success: boolean;
-  reason?: "expired" | "invalid" | "no_token";
-  userId?: string;
-} => {
+): VerificationSuccess | VerificationFailure => {
   if (!token) return { success: false, reason: "no_token" };
   try {
     const decoded = jwt.verify(token, dotenv.JWT_SECRET) as { sub: string };
