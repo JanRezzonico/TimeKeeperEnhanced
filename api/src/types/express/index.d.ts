@@ -5,5 +5,6 @@ import type { SerializedUser } from "../serialized/SerializedUser.ts";
 declare module "express-serve-static-core" {
   interface Request {
     user?: SerializedUser;
+    parsedQuery?: Record<string, any>;
   }
 }

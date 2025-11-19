@@ -2,10 +2,10 @@ import type { Handler } from "express";
 import { verifyJWT } from "../../lib/jwt.js";
 import db from "../../lib/db.js";
 import serializeUser from "../../util/serializers/serializeUser.js";
+import cookieNames from "../../lib/cookieNames.js";
 
 const authenticate: Handler = async (req, res, next) => {
-  const token = req.headers.authorization?.split(" ")[1];
-  const verification = verifyJWT(token);
+  const verification = verifyJWT(req.cookies[cookieNames.authJWT]);
 
   if (!verification.success) {
     return res.status(401).json({

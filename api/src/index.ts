@@ -6,10 +6,12 @@ import authRouter from "./routes/auth/router.js";
 import handleBadJSON from "./util/errorhandlers/handleBadJSON.js";
 import nodeCron from "node-cron";
 import cleanupExpiredVerificationTokens from "./util/cronjobs/cleanupExpiredVerificationTokens.js";
+import cookieParser from "cookie-parser";
 
 const app = express();
 
 app.use(express.json());
+app.use(cookieParser());
 
 app.get("/", async (req, res) => {
   res.json({ message: "Welcome to the TimeKeeper Enhanced API!" });
