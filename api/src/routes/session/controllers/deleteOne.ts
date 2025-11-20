@@ -1,10 +1,15 @@
 import type { RequestHandler } from "express";
-import { assert } from "../../../lib/assert.js";
+import type { Session } from "../../../generated/prisma/client.js";
+import db from "../../../lib/db.js";
 
 const deleteOne: RequestHandler<{ id: string }> = async (req, res) => {
-  assert(req.user, req);
-  const { id } = req.params;
-  throw new Error("Not implemented");
+  const { id } = req.session as Session;
+  await db.session.delete({
+    where: {
+      id,
+    },
+  });
+  res.sendStatus(204);
 };
 
 export default deleteOne;

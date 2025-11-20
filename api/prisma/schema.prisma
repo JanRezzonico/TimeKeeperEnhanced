@@ -58,7 +58,7 @@ model Session {
   user      User      @relation(fields: [userId], references: [id])
   start     DateTime
   end       DateTime?
-  note      String?
+  note      String    @default("")
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
 }

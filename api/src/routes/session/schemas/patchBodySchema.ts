@@ -2,7 +2,7 @@ import z from "zod";
 
 const patchBodySchema = z.object({
   start: z.coerce.date().optional(),
-  end: z.coerce.date().optional(),
+  end: z.coerce.date().nullable().optional(),
   note: z.string().max(512).optional(),
 });
 

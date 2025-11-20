@@ -9,17 +9,31 @@ import patchBodySchema from "./schemas/patchBodySchema.js";
 import patchOne from "./controllers/patchOne.js";
 import deleteOne from "./controllers/deleteOne.js";
 import requireIdParam from "../_middlewares/requireIdParam.js";
+import ensureSessionOwnership from "./middlewares/ensureSessionOwnership.js";
 
 const sessionRouter = Router();
 
 sessionRouter.get("/", [authenticate], getAll);
-sessionRouter.get("/:id", [authenticate, requireIdParam], getOne);
+sessionRouter.get(
+  "/:id",
+  [authenticate, requireIdParam, ensureSessionOwnership],
+  getOne
+);
 sessionRouter.post("/", [authenticate, parseBody(postBodySchema)], post);
 sessionRouter.patch(
   "/:id",
-  [authenticate, requireIdParam, parseBody(patchBodySchema)],
+  [
+    authenticate,
+    requireIdParam,
+    ensureSessionOwnership,
+    parseBody(patchBodySchema),
+  ],
   patchOne
 );
-sessionRouter.delete("/:id", [authenticate, requireIdParam], deleteOne);
+sessionRouter.delete(
+  "/:id",
+  [authenticate, requireIdParam, ensureSessionOwnership],
+  deleteOne
+);
 
 export default sessionRouter;

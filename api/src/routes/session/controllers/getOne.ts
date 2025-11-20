@@ -1,10 +1,8 @@
 import type { RequestHandler } from "express";
-import { assert } from "../../../lib/assert.js";
+import type { Session } from "../../../generated/prisma/client.js";
 
 const getOne: RequestHandler<{ id: string }> = async (req, res) => {
-  assert(req.user, req);
-  const { id } = req.params;
-  throw new Error("Not implemented");
+  return res.status(200).json(req.session as Session);
 };
 
 export default getOne;
