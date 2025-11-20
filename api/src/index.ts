@@ -7,6 +7,7 @@ import handleBadJSON from "./util/errorhandlers/handleBadJSON.js";
 import nodeCron from "node-cron";
 import cleanupExpiredVerificationTokens from "./util/cronjobs/cleanupExpiredVerificationTokens.js";
 import cookieParser from "cookie-parser";
+import sessionRouter from "./routes/session/router.js";
 
 const app = express();
 
@@ -20,6 +21,8 @@ app.get("/", async (req, res) => {
 app.use("/user", userRouter);
 
 app.use("/auth", authRouter);
+
+app.use("/session", sessionRouter);
 
 app.listen(dotenv.PORT, () => {
   console.log(`🚀 Server running on http://localhost:${dotenv.PORT}`);
